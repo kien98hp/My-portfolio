@@ -55,8 +55,8 @@
         /* GALLERY DETAIL LAYOUT */
         #gallery-grid-container { display: flex; flex-direction: column; gap: var(--gap); }
         .gallery-row { display: flex; gap: var(--gap); width: 100%; align-items: stretch; }
-        .gallery-item { position: relative; flex-grow: 1; overflow: hidden; background: #f0f0f0; }
-        .gallery-item img { width: 100%; height: auto; display: block; object-fit: contain; }
+        .gallery-item { position: relative; overflow: hidden; background: #f0f0f0; flex: 1; }
+        .gallery-item img { width: 100%; height: 100%; display: block; object-fit: cover; }
 
         .view-section { display: none; width: 100%; }
         .view-section.active { display: block; animation: fadeIn 0.6s ease; }
@@ -143,7 +143,7 @@
     <script>
         const projects = [
             { 
-                id: 1, title: "Văn Quán future", cat: "Architecture", desc: "",
+                id: 1, title: "Văn Quán future", cat: "Architecture", desc: "Không gian sống hiện đại tích hợp các giải pháp bền vững.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187278/1_mowk0j_kcibe7.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187278/1_mowk0j_kcibe7.jpg",
@@ -154,7 +154,7 @@
                 ] 
             },  
             { 
-                id: 2, title: "Casa river", cat: "Architecture", desc: "",
+                id: 2, title: "Casa river", cat: "Architecture", desc: "Sự kết hợp hoàn hảo giữa thiên nhiên và kiến trúc hiện đại.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186344/thumb_aklrl2_wbjz2s.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186345/5_jtaqmd_qj8naj.jpg",
@@ -166,7 +166,7 @@
                 ] 
             },
             { 
-                id: 3, title: "Farmhouse 2", cat: "Architecture", desc: "",
+                id: 3, title: "Farmhouse 2", cat: "Architecture", desc: "Vẻ đẹp mộc mạc của nông thôn trong cuộc sống đương đại.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186684/1_xmeyaj.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186689/4_pxxooa.jpg",
@@ -178,18 +178,18 @@
                 ] 
             },
             { 
-                id: 4, title: "Symphony of light", cat: "Interior", desc: "",
+                id: 4, title: "Symphony of light", cat: "Interior", desc: "Vũ điệu của ánh sáng trong không gian nội thất tối giản.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187110/3_hbhne9_npqpmw.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187116/5_dppmdl_mhgxtn.jpg",
-                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187113/4_gdkzk3_lrc4c8.jpg",
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187115/6_rl1yhj_s8jnmx.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187113/4_gdkzk3_lrc4c8.jpg",
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187112/9_sxec6o_r6u3sj.jpg",
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187111/7_b1fuo9_r7nu8z.jpg"
                 ] 
             },
             { 
-                id: 5, title: "Velvet Lounge", cat: "Interior", desc: "",
+                id: 5, title: "Velvet Lounge", cat: "Interior", desc: "Sang trọng và ấm cúng với tông màu trầm lắng.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187415/1_laactb_xcslho.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187422/5_ub8xlu_cv7epx.jpg",
@@ -201,7 +201,7 @@
                 ] 
             },
             { 
-                id: 6, title: "Beyond the cliff line", cat: "Architecture", desc: "",
+                id: 6, title: "Beyond the cliff line", cat: "Architecture", desc: "Thách thức địa hình với thiết kế vươn xa.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/thumb_unnuog.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/thumb_unnuog.jpg",
@@ -212,7 +212,7 @@
                 ] 
             },
             { 
-                id: 7, title: "Vista Verde", cat: "Architecture", desc: "",
+                id: 7, title: "Vista Verde", cat: "Architecture", desc: "Màu xanh ngập tràn trong từng ngóc ngách của căn nhà.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187476/0_mlyn2u_ypq7kt.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187488/7_i29ltg_pyiyrw.jpg",
@@ -226,7 +226,7 @@
                 ] 
             },
             { 
-                id: 8, title: "Casa Serene", cat: "Architecture", desc: "",
+                id: 8, title: "Casa Serene", cat: "Architecture", desc: "Yên bình và tĩnh lặng, nơi trú ẩn lý tưởng cho tâm hồn.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/A_kkjedz_vl6yjg.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/A_kkjedz_vl6yjg.jpg",
@@ -238,7 +238,7 @@
                 ] 
             },
             { 
-                id: 9, title: "Apartment studio", cat: "Interior", desc: "",
+                id: 9, title: "Apartment studio", cat: "Interior", desc: "Tối ưu hóa không gian cho căn hộ studio diện tích nhỏ.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/b_2_gra4nb_ge7oz5.avif", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/c_2_wgdkzl_ed938o.avif",
@@ -255,7 +255,7 @@
                 ] 
             },
             { 
-                id: 10, title: "Sous les Ailes", cat: "Architecture", desc: "",
+                id: 10, title: "Sous les Ailes", cat: "Architecture", desc: "Kiến trúc biểu tượng lấy cảm hứng từ đôi cánh tự do.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187061/V2_wfsftz_xymqub.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187063/V4_mqgss1_rws3ce.jpg",
@@ -265,7 +265,7 @@
                 ] 
             },
             { 
-                id: 11, title: "HaNoi Market", cat: "Visualization", desc: "",
+                id: 11, title: "HaNoi Market", cat: "Visualization", desc: "Tái hiện không gian chợ truyền thống Hà Nội bằng kỹ thuật 3D.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186787/Market_1_iwasd2_prvhv8.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186787/Market_1_iwasd2_prvhv8.jpg",
@@ -274,7 +274,7 @@
                 ] 
             },
             { 
-                id: 12, title: "Hanoi Street", cat: "Visualization", desc: "",
+                id: 12, title: "Hanoi Street", cat: "Visualization", desc: "Những con phố nhuốm màu thời gian của thủ đô.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186973/V1_yyrnzb_o47cx6.avif", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186976/V4_ufkhn9_pqzcwt.avif",
@@ -284,7 +284,7 @@
                 ] 
             },
             { 
-                id: 13, title: "Farmhouse 1", cat: "Architecture", desc: "",
+                id: 13, title: "Farmhouse 1", cat: "Architecture", desc: "Không gian sống hòa mình vào thiên nhiên hoang sơ.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186607/v_1_y8txjm_al6oqv.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186608/v_4_v0ggfd_swwilo.jpg",
@@ -293,7 +293,7 @@
                 ] 
             },
             { 
-                id: 14, title: "Uriya", cat: "Architecture", desc: "",
+                id: 14, title: "Uriya", cat: "Architecture", desc: "Nét đẹp tinh tế của phong cách tối giản Nhật Bản.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187193/1_aghzkv_ftdegd.jpg", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187193/1_aghzkv_ftdegd.jpg",
@@ -343,43 +343,49 @@
         }
 
         async function renderGalleryAuto(urls) {
-            galleryGridContainer.innerHTML = '<div style="padding: 2rem; font-weight:900; text-transform:uppercase;">Loading visual data...</div>';
+            galleryGridContainer.innerHTML = '<div style="padding: 2rem; font-weight:900; text-transform:uppercase; opacity:0.5;">Loading visual data...</div>';
             
-            // Tải ảnh để lấy tỷ lệ khung hình thực tế
             const photoData = await Promise.all(urls.map(url => {
                 return new Promise(resolve => {
                     const img = new Image();
-                    img.onload = () => resolve({ src: url, ratio: img.width / img.height, isLandscape: img.width > img.height });
+                    img.onload = () => resolve({ src: url, ratio: img.width / img.height });
                     img.src = url;
                 });
             }));
 
             galleryGridContainer.innerHTML = '';
-            let groups = [], currentGroup = [];
-
-            photoData.forEach(photo => {
-                if (photo.isLandscape) {
-                    if (currentGroup.length) { groups.push([...currentGroup]); currentGroup = []; }
-                    groups.push([photo]);
-                } else {
-                    currentGroup.push(photo);
-                    if (currentGroup.length === 3) { groups.push([...currentGroup]); currentGroup = []; }
-                }
-            });
-            if (currentGroup.length) groups.push(currentGroup);
-
-            groups.forEach(group => {
+            
+            let i = 0;
+            while (i < photoData.length) {
                 const row = document.createElement('div');
                 row.className = 'gallery-row';
-                group.forEach(img => {
+                
+                // Thuật toán: Gom nhóm theo hàng để tối ưu hóa không gian. 
+                // Mỗi hàng sẽ cố gắng chứa 2 hoặc 3 ảnh tùy thuộc vào độ rộng của chúng.
+                let itemsInRow = [];
+                let currentWeight = 0;
+                
+                // Trọng số ảnh dựa trên tỷ lệ (ảnh ngang nặng hơn ảnh dọc)
+                // Cố gắng lấp đầy trọng số khoảng 2-3 đơn vị mỗi hàng
+                while (i < photoData.length && currentWeight < 2.2) {
+                    const photo = photoData[i];
+                    itemsInRow.push(photo);
+                    // Ảnh ngang (ratio > 1.2) tính 1.2 điểm, ảnh dọc/vuông tính 0.8 điểm
+                    currentWeight += photo.ratio > 1.2 ? 1.2 : 0.8;
+                    i++;
+                }
+
+                itemsInRow.forEach(img => {
                     const item = document.createElement('div');
                     item.className = 'gallery-item';
+                    // Sử dụng tỷ lệ thực tế để làm giá trị flex-grow giúp các ảnh đều tăm tắp về chiều cao
                     item.style.flex = `${img.ratio} 1 0%`; 
                     item.innerHTML = `<img src="${img.src}">`;
                     row.appendChild(item);
                 });
+                
                 galleryGridContainer.appendChild(row);
-            });
+            }
         }
 
         function switchView(targetView) {
