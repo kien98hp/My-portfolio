@@ -32,7 +32,8 @@
         .nav-link:hover { opacity: 1; }
         .nav-link.active { opacity: 1; text-decoration: underline; text-underline-offset: 8px; }
         
-        #back-btn { display: none; cursor: pointer; border: 2px solid #000; padding: 0.6rem 1.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; margin-left: auto; }
+        #back-btn { display: none; cursor: pointer; border: 2px solid #000; padding: 0.6rem 1.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; margin-left: auto; transition: background 0.3s, color 0.3s; }
+        #back-btn:hover { background: #000; color: #fff; }
 
         main { padding: var(--header-h) var(--side-padding) 5rem; display: flex; flex-direction: column; gap: var(--gap); min-height: 100vh; }
 
@@ -51,13 +52,25 @@
 
         .project-item { position: relative; overflow: hidden; background: #f7f7f7; cursor: pointer; display: flex; align-items: flex-end; }
         .project-item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        
         .project-item:hover img { transform: scale(1.05); }
 
-        .project-meta { position: relative; z-index: 2; text-align: center; width: 100%; padding-bottom: var(--gap); pointer-events: none; opacity: 0; transition: 0.4s; transform: translateY(10px); }
-        .project-item:hover .project-meta { opacity: 1; transform: translateY(0); }
+        .project-meta { 
+            position: relative; 
+            z-index: 2; 
+            text-align: center; 
+            width: 100%; 
+            padding-bottom: var(--gap); 
+            padding-top: 40px; 
+            pointer-events: none; 
+            opacity: 1; 
+            transform: translateY(0); 
+            transition: var(--transition);
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+        }
         
-        .project-category { font-size: 0.6rem; text-transform: uppercase; color: #fff; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        .project-title { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.4); padding: 0 10px; }
+        .project-category { font-size: 0.65rem; text-transform: uppercase; color: rgba(255,255,255,0.8); font-weight: 800; letter-spacing: 1px; margin-bottom: 4px; }
+        .project-title { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; color: #fff; padding: 0 15px; letter-spacing: 0.5px; }
 
         /* GALLERY DETAIL LAYOUT */
         #gallery-grid-container { display: flex; flex-direction: column; gap: var(--gap); }
@@ -70,8 +83,9 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .project-info { padding: 0 0 4rem 0; max-width: 900px; }
-        .project-info h1 { font-size: 3.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: -2px; }
-        .project-info p { font-size: 1.1rem; color: var(--muted-color); line-height: 1.6; }
+        .project-info h1 { font-size: 3.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: -2px; margin-bottom: 1rem; }
+        .project-info .desc-vn { font-size: 1.15rem; color: var(--text-color); line-height: 1.6; font-weight: 500; }
+        .project-info .desc-en { font-size: 1rem; color: var(--muted-color); line-height: 1.6; font-style: italic; margin-top: 0.5rem; }
 
         /* CONTACT SECTION */
         .contact-content { max-width: 1200px; margin: 0 auto; padding-top: 5vh; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
@@ -94,6 +108,8 @@
             .grid-row { grid-template-columns: 1fr !important; }
             .gallery-row { flex-direction: column !important; }
             .contact-left h2 { font-size: 2.5rem; letter-spacing: -1px; }
+            .project-title { font-size: 1rem; }
+            .project-info h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -105,7 +121,7 @@
             <div class="nav-link" id="home-nav-link">Work</div>
             <div class="nav-link" id="contact-nav-link">Contact</div>
         </nav>
-        <div id="back-btn">Index</div>
+        <div id="back-btn">Back</div>
     </header>
 
     <main id="home-view" class="view-section active">
@@ -115,7 +131,10 @@
     <main id="project-view" class="view-section">
         <div class="project-info">
             <h1 id="view-title"></h1>
-            <p id="view-desc"></p>
+            <div id="view-desc-container">
+                <p id="view-desc-vn" class="desc-vn"></p>
+                <p id="view-desc-en" class="desc-en"></p>
+            </div>
         </div>
         <div id="gallery-grid-container"></div>
     </main>
@@ -149,19 +168,188 @@
 
     <script>
         const projects = [
-            { id: 1, title: "Văn Quán future", cat: "Architecture", desc: "Không gian sống hiện đại tích hợp các giải pháp bền vững.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187278/1_mowk0j_kcibe7.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187278/1_mowk0j_kcibe7.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187283/5_kzxln4_kycevq.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187282/3_dyi2u2_ykw5za.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187280/2_dtysku_keogjy.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187279/4_lfyu7x_zn32cw.jpg"] },  
-            { id: 2, title: "Casa river", cat: "Architecture", desc: "Sự kết hợp hoàn hảo giữa thiên nhiên và kiến trúc hiện đại.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186344/thumb_aklrl2_wbjz2s.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186345/5_jtaqmd_qj8naj.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186344/thumb_aklrl2_wbjz2s.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186344/4_d9zkle_jzpzng.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186343/3_yezqzo_hfk1fm.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186343/8_cvqjry_ci7k4l.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186342/0_v9gabb_rceqie.jpg"] },
-            { id: 3, title: "Farmhouse 2", cat: "Architecture", desc: "Vẻ đẹp mộc mạc của nông thôn trong cuộc sống đương đại.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186684/1_xmeyaj.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186689/4_pxxooa.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186688/7_j5yrwi.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186688/6_sjhj8k.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186687/5_gcbmrf.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186686/3_o9fiol.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186685/2_mcoxwk.jpg"] },
-            { id: 4, title: "Symphony of light", cat: "Interior", desc: "Vũ điệu của ánh sáng trong không gian nội thất tối giản.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187110/3_hbhne9_npqpmw.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187116/5_dppmdl_mhgxtn.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187115/6_rl1yhj_s8jnmx.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187113/4_gdkzk3_lrc4c8.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187112/9_sxec6o_r6u3sj.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187111/7_b1fuo9_r7nu8z.jpg"] },
-            { id: 5, title: "Velvet Lounge", cat: "Interior", desc: "Sang trọng và ấm cúng với tông màu trầm lắng.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187415/1_laactb_xcslho.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187422/5_ub8xlu_cv7epx.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187421/4_culwz7_mqxzxc.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187419/6_td8an3_fb5xmv.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187417/3_q0dkqf_e95jg5.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187415/1_laactb_xcslho.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187414/2_jkwjfv_jnr80k.jpg"] },
-            { id: 6, title: "Beyond the cliff line", cat: "Architecture", desc: "Thách thức địa hình với thiết kế vươn xa.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/thumb_unnuog.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/thumb_unnuog.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186227/f_edfjcc.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/c_weduec.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186227/d_henfrb.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/e_vegwdz.jpg"] },
-            { id: 7, title: "Vista Verde", cat: "Architecture", desc: "Màu xanh ngập tràn trong từng ngóc ngách của căn nhà.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187476/0_mlyn2u_ypq7kt.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187488/7_i29ltg_pyiyrw.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187486/3_fsac4r_aucxau.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187484/4_ely1t8_xnzdd3.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187483/6_ysou9b_kefwl4.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187481/8_l3nu3e_shesud.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187479/1_qalnrt_fmsbjy.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187478/5_y1vsoc_dbegsn.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187476/0_mlyn2u_ypq7kt.jpg"] },
-            { id: 8, title: "Casa Serene", cat: "Architecture", desc: "Yên bình và tĩnh lặng, nơi trú ẩn lý tưởng cho tâm hồn.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/A_kkjedz_vl6yjg.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/A_kkjedz_vl6yjg.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/3_mlpun2_kh1orb.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186445/6_kncxfw_evefpp.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186444/4_vbj4dy_tzrkxa.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186444/2_drunvo_gzq5qk.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186443/1_j5hfzg_j8redl.jpg"] },
-            { id: 9, title: "Apartment studio", cat: "Interior", desc: "Tối ưu hóa không gian cho căn hộ studio diện tích nhỏ.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/b_2_gra4nb_ge7oz5.avif", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/c_2_wgdkzl_ed938o.avif", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/d_2_s0xhlm_iwlezd.avif", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/d_1_lzhfg6_vxkme5.avif", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/a_1_mgnv1a_rw6scq.avif", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/b_2_gra4nb_ge7oz5.avif", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/c_1_xhbhcy_zjyzjy.avif", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/b_1_ax82ir_opxyd5.avif", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/12_zkhj7k_exmmcy.avif", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/2_lqxthe_ggrs5k.avif", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/a_2_mcg5bh_qvuxaz.avif", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/9_bojgdv_snftpz.avif"] },
-            { id: 10, title: "Sous les Ailes", cat: "Architecture", desc: "Kiến trúc biểu tượng lấy cảm hứng từ đôi cánh tự do.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187061/V2_wfsftz_xymqub.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187063/V4_mqgss1_rws3ce.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187061/V2_wfsftz_xymqub.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187060/V3_m8umd8_drd7c3.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187059/t_vqhux6_ajqcyl.jpg"] },
-            { id: 11, title: "HaNoi Market", cat: "Visualization", desc: "Tái hiện không gian chợ truyền thống Hà Nội bằng kỹ thuật 3D.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186787/Market_1_iwasd2_prvhv8.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186787/Market_1_iwasd2_prvhv8.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186788/Market_4_vctzrb_e55dyg.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186789/Market_2_spqo3c_hdvsgb.jpg"] },
             { 
-                id: 12, title: "Hanoi Street", cat: "Visualization", desc: "",
+                id: 1, 
+                title: "Văn Quán future", 
+                cat: "Architecture", 
+                desc: "Không gian sống hiện đại tích hợp các giải pháp bền vững.", 
+                descEn: "Modern living space integrated with sustainable solutions.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187278/1_mowk0j_kcibe7.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187278/1_mowk0j_kcibe7.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187285/q_tusxpe_i6elbr.jpg",                    
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187283/5_kzxln4_kycevq.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187282/3_dyi2u2_ykw5za.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187280/2_dtysku_keogjy.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187279/4_lfyu7x_zn32cw.jpg"
+                ] 
+            },  
+            { 
+                id: 2, 
+                title: "Casa river", 
+                cat: "Architecture", 
+                desc: "Sự kết hợp hoàn hảo giữa thiên nhiên và kiến trúc hiện đại.", 
+                descEn: "A perfect harmony between nature and modern architecture.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186344/thumb_aklrl2_wbjz2s.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186345/5_jtaqmd_qj8naj.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186344/thumb_aklrl2_wbjz2s.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186344/4_d9zkle_jzpzng.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186343/3_yezqzo_hfk1fm.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186343/8_cvqjry_ci7k4l.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186342/0_v9gabb_rceqie.jpg"
+                ] 
+            },
+            { 
+                id: 3, 
+                title: "Farmhouse 2", 
+                cat: "Architecture", 
+                desc: "Vẻ đẹp mộc mạc của nông thôn trong cuộc sống đương đại.", 
+                descEn: "The rustic beauty of the countryside in contemporary life.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186684/1_xmeyaj.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186689/4_pxxooa.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186688/7_j5yrwi.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186688/6_sjhj8k.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186687/5_gcbmrf.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186686/3_o9fiol.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186685/2_mcoxwk.jpg"
+                ] 
+            },
+            { 
+                id: 4, 
+                title: "Symphony of light", 
+                cat: "Interior", 
+                desc: "Vũ điệu của ánh sáng trong không gian nội thất tối giản.", 
+                descEn: "A dance of light within a minimalist interior space.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187110/3_hbhne9_npqpmw.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187116/5_dppmdl_mhgxtn.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187115/6_rl1yhj_s8jnmx.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187113/4_gdkzk3_lrc4c8.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187112/9_sxec6o_r6u3sj.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187111/7_b1fuo9_r7nu8z.jpg"
+                ] 
+            },
+            { 
+                id: 5, 
+                title: "Velvet Lounge", 
+                cat: "Interior", 
+                desc: "Sang trọng và ấm cúng với tông màu trầm lắng.", 
+                descEn: "Luxury and coziness with deep, sophisticated tones.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187415/1_laactb_xcslho.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187422/5_ub8xlu_cv7epx.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187421/4_culwz7_mqxzxc.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187419/6_td8an3_fb5xmv.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187417/3_q0dkqf_e95jg5.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187415/1_laactb_xcslho.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187414/2_jkwjfv_jnr80k.jpg"
+                ] 
+            },
+            { 
+                id: 6, 
+                title: "Beyond the cliff line", 
+                cat: "Architecture", 
+                desc: "Thách thức địa hình với thiết kế vươn xa.", 
+                descEn: "Challenging terrain with a bold, cantilevered design.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/thumb_unnuog.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/thumb_unnuog.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186227/f_edfjcc.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/c_weduec.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186227/d_henfrb.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/e_vegwdz.jpg"
+                ] 
+            },
+            { 
+                id: 7, 
+                title: "Vista Verde", 
+                cat: "Architecture", 
+                desc: "Màu xanh ngập tràn trong từng ngóc ngách của căn nhà.", 
+                descEn: "Lush greenery infused into every corner of the home.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187476/0_mlyn2u_ypq7kt.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187488/7_i29ltg_pyiyrw.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187486/3_fsac4r_aucxau.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187484/4_ely1t8_xnzdd3.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187483/6_ysou9b_kefwl4.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187481/8_l3nu3e_shesud.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187479/1_qalnrt_fmsbjy.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187478/5_y1vsoc_dbegsn.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187476/0_mlyn2u_ypq7kt.jpg"
+                ] 
+            },
+            { 
+                id: 8, 
+                title: "Casa Serene", 
+                cat: "Architecture", 
+                desc: "Yên bình và tĩnh lặng, nơi trú ẩn lý tưởng cho tâm hồn.", 
+                descEn: "Peace and tranquility, an ideal sanctuary for the soul.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/A_kkjedz_vl6yjg.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/A_kkjedz_vl6yjg.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/3_mlpun2_kh1orb.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186445/6_kncxfw_callfyg.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186444/4_vbj4dy_tzrkxa.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186444/2_drunvo_gzq5qk.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186443/1_j5hfzg_j8redl.jpg"
+                ] 
+            },
+            { 
+                id: 9, 
+                title: "Apartment studio", 
+                cat: "Interior", 
+                desc: "Tối ưu hóa không gian cho căn hộ studio diện tích nhỏ.", 
+                descEn: "Space optimization for small-scale studio apartments.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/b_2_gra4nb_ge7oz5.avif", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/c_2_wgdkzl_ed938o.avif", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/d_2_s0xhlm_iwlezd.avif", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/d_1_lzhfg6_vxkme5.avif", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/a_1_mgnv1a_rw6scq.avif", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/b_2_gra4nb_ge7oz5.avif", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/c_1_xhbhcy_zjyzjy.avif", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/b_1_ax82ir_opxyd5.avif", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/12_zkhj7k_exmmcy.avif", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/2_lqxthe_ggrs5k.avif", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/a_2_mcg5bh_qvuxaz.avif", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/9_bojgdv_snftpz.avif"
+                ] 
+            },
+            { 
+                id: 10, 
+                title: "Sous les Ailes", 
+                cat: "Architecture", 
+                desc: "Kiến trúc biểu tượng lấy cảm hứng từ đôi cánh tự do.", 
+                descEn: "Iconic architecture inspired by the spirit of free wings.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187061/V2_wfsftz_xymqub.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187063/V4_mqgss1_rws3ce.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187061/V2_wfsftz_xymqub.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187060/V3_m8umd8_drd7c3.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187059/t_vqhux6_ajqcyl.jpg"
+                ] 
+            },
+            { 
+                id: 11, 
+                title: "HaNoi Market", 
+                cat: "Visualization", 
+                desc: "Tái hiện không gian chợ truyền thống Hà Nội bằng kỹ thuật 3D.", 
+                descEn: "Recreating traditional Hanoi market spaces through 3D visualization.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186787/Market_1_iwasd2_prvhv8.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186787/Market_1_iwasd2_prvhv8.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186788/Market_4_vctzrb_e55dyg.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186789/Market_2_spqo3c_hdvsgb.jpg"
+                ] 
+            },
+            { 
+                id: 12, 
+                title: "Hanoi Street", 
+                cat: "Visualization", 
+                desc: "Nét xưa cũ giữa lòng thủ đô hiện đại.", 
+                descEn: "Ancient charm in the heart of the modern capital.",
                 thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186973/V1_yyrnzb_o47cx6.avif", 
                 gallery: [
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186976/V4_ufkhn9_pqzcwt.avif",
@@ -172,8 +360,35 @@
                     "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186971/V2_nkwe8v_h3zbus.avif"
                 ] 
             },
-            { id: 13, title: "Farmhouse 1", cat: "Architecture", desc: "Không gian sống hòa mình vào thiên nhiên hoang sơ.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186607/v_1_y8txjm_al6oqv.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186608/v_4_v0ggfd_swwilo.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186607/v_1_y8txjm_al6oqv.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186609/v_11_ufi7w3_imp82l.jpg"] },
-            { id: 14, title: "Uriya", cat: "Architecture", desc: "Nét đẹp tinh tế của phong cách tối giản Nhật Bản.", thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187193/1_aghzkv_ftdegd.jpg", gallery: ["https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187193/1_aghzkv_ftdegd.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187192/6_y9sm2e_kpfj0l.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187190/4_j2cavy_xumgl5.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187188/5_y1bgw3_jzb5ao.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187187/3_sqh2pl_rsdlyu.jpg", "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187186/2_ftvjqu_qyolyi.jpg"] },
+            { 
+                id: 13, 
+                title: "Farmhouse 1", 
+                cat: "Architecture", 
+                desc: "Không gian sống hòa mình vào thiên nhiên hoang sơ.", 
+                descEn: "Living space immersed in untouched natural beauty.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186607/v_1_y8txjm_al6oqv.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186608/v_4_v0ggfd_swwilo.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186607/v_1_y8txjm_al6oqv.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186609/v_11_ufi7w3_imp82l.jpg"
+                ] 
+            },
+            { 
+                id: 14, 
+                title: "Uriya", 
+                cat: "Architecture", 
+                desc: "Nét đẹp tinh tế của phong cách tối giản Nhật Bản.", 
+                descEn: "The refined beauty of Japanese minimalism.", 
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187193/1_aghzkv_ftdegd.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187193/1_aghzkv_ftdegd.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187192/6_y9sm2e_kpfj0l.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187190/4_j2cavy_xumgl5.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187188/5_y1bgw3_jzb5ao.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187187/3_sqh2pl_rsdlyu.jpg", 
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187186/2_ftvjqu_qyolyi.jpg"
+                ] 
+            },
         ];
 
         const homeView = document.getElementById('home-view');
@@ -203,12 +418,9 @@
             let deck = [];
 
             while(dataIdx < projects.length) {
-                // Nếu túi bài rỗng, tạo túi mới [2, 3, 4]
                 if (deck.length === 0) {
                     let newDeck = [2, 3, 4];
                     shuffle(newDeck);
-                    
-                    // Đảm bảo hàng đầu tiên của bộ mới không trùng hàng cuối bộ cũ
                     if (lastRowType && newDeck[0] === lastRowType) {
                         [newDeck[0], newDeck[1]] = [newDeck[1], newDeck[0]];
                     }
@@ -298,7 +510,8 @@
         function openProject(p) {
             switchView(projectView);
             document.getElementById('view-title').innerText = p.title;
-            document.getElementById('view-desc').innerText = p.desc;
+            document.getElementById('view-desc-vn').innerText = p.desc;
+            document.getElementById('view-desc-en').innerText = p.descEn || "";
             renderGalleryAuto(p.gallery);
         }
 
