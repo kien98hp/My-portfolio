@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KENDERVISION | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gap: 20px; 
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --muted-color: #888888;
+            --header-h: 140px; 
+            --side-padding: var(--gap); 
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+        header {
+            padding: 3rem var(--side-padding);
+            display: flex; justify-content: flex-start; align-items: center;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); gap: 4rem; 
+        }
+        .logo { font-size: 1.65rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; color: var(--text-color); text-decoration: none; }
+        nav { font-size: 1.15rem; font-weight: 700; text-transform: uppercase; display: flex; align-items: center; gap: 2.5rem; }
+        .nav-link { cursor: pointer; opacity: 0.5; transition: 0.3s; }
+        .nav-link:hover { opacity: 1; }
+        .nav-link.active { opacity: 1; text-decoration: underline; text-underline-offset: 8px; }
+        
+        #back-btn { display: none; cursor: pointer; border: 2px solid #000; padding: 0.6rem 1.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; margin-left: auto; }
+
+        main { padding: var(--header-h) var(--side-padding) 5rem; display: flex; flex-direction: column; gap: var(--gap); min-height: 100vh; }
+
+        /* HOME GRID */
+        #main-grid-container { display: flex; flex-direction: column; gap: var(--gap); }
+        .grid-row { display: grid; gap: var(--gap); width: 100%; }
+        .row-2 { grid-template-columns: repeat(2, 1fr); }
+        .row-2 .project-item { aspect-ratio: 1 / 1; }
+        .row-3 { grid-template-columns: repeat(3, 1fr); }
+        .row-3 .project-item { aspect-ratio: 4 / 5; }
+
+        .project-item { position: relative; overflow: hidden; background: #f7f7f7; cursor: pointer; display: flex; align-items: flex-end; }
+        .project-item img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        .project-item:hover img { transform: scale(1.05); }
+
+        .project-meta { position: relative; z-index: 2; text-align: center; width: 100%; padding-bottom: var(--gap); pointer-events: none; }
+        .project-category { font-size: 0.6rem; text-transform: uppercase; color: #fff; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .project-title { font-size: 1.45rem; font-weight: 800; text-transform: uppercase; color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+
+        /* GALLERY DETAIL LAYOUT */
+        #gallery-grid-container { display: flex; flex-direction: column; gap: var(--gap); }
+        .gallery-row { display: flex; gap: var(--gap); width: 100%; align-items: stretch; }
+        .gallery-item { position: relative; flex-grow: 1; overflow: hidden; background: #f0f0f0; }
+        .gallery-item img { width: 100%; height: auto; display: block; object-fit: contain; }
+
+        .view-section { display: none; width: 100%; }
+        .view-section.active { display: block; animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .project-info { padding: 0 0 4rem 0; max-width: 900px; }
+        .project-info h1 { font-size: 3.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: -2px; }
+        .project-info p { font-size: 1.1rem; color: var(--muted-color); line-height: 1.6; }
+
+        /* CONTACT SECTION */
+        .contact-content { max-width: 1200px; margin: 0 auto; padding-top: 5vh; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        .contact-left h2 { font-size: 5rem; font-weight: 900; line-height: 1; text-transform: uppercase; letter-spacing: -4px; margin-bottom: 2rem; }
+        .contact-left p { font-size: 1.25rem; color: var(--muted-color); max-width: 400px; }
+        .contact-links { display: flex; flex-direction: column; gap: 1.5rem; justify-content: center; }
+        .social-link { display: flex; align-items: center; gap: 1.5rem; text-decoration: none; color: var(--text-color); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; transition: 0.3s; padding: 1rem 0; border-bottom: 1px solid #eee; }
+        .social-link i { font-size: 1.8rem; width: 30px; text-align: center; }
+        .social-link:hover { color: var(--muted-color); padding-left: 10px; border-bottom-color: #000; }
+
+        @media (max-width: 992px) {
+            .contact-content { grid-template-columns: 1fr; gap: 2rem; }
+            .contact-left h2 { font-size: 3.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            :root { --gap: 10px; --header-h: 110px; }
+            header { gap: 1.5rem; padding: 2rem var(--side-padding); }
+            .logo { font-size: 1.2rem; }
+            nav { gap: 1.5rem; font-size: 0.9rem; }
+            .gallery-row { flex-direction: column !important; }
+            .contact-left h2 { font-size: 2.5rem; letter-spacing: -1px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" id="logo-btn">KENDERVISION</div>
+        <nav id="main-nav">
+            <div class="nav-link" id="home-nav-link">Work</div>
+            <div class="nav-link" id="contact-nav-link">Contact</div>
+        </nav>
+        <div id="back-btn">Index</div>
+    </header>
+
+    <main id="home-view" class="view-section active">
+        <div id="main-grid-container"></div>
+    </main>
+
+    <main id="project-view" class="view-section">
+        <div class="project-info">
+            <h1 id="view-title"></h1>
+            <p id="view-desc"></p>
+        </div>
+        <div id="gallery-grid-container"></div>
+    </main>
+
+    <main id="contact-view" class="view-section">
+        <div class="contact-content">
+            <div class="contact-left">
+                <h2>Let's make<br>something<br>great.</h2>
+                <p>Kiến trúc • Nội thất • Diễn họa 3D.</p>
+            </div>
+            <div class="contact-links">
+                <a href="mailto:kienpham840@gmail.com" class="social-link">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span>kienpham840@gmail.com</span>
+                </a>
+                <a href="https://www.facebook.com/kien4198" target="_blank" class="social-link">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <span>facebook.com/kien4198</span>
+                </a>
+                <a href="https://www.instagram.com/muertahaha/" target="_blank" class="social-link">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>@muertahaha</span>
+                </a>
+                <a href="tel:+84917572050" class="social-link">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>+84 917 572 050</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const projects = [
+            { 
+                id: 1, title: "Văn Quán future", cat: "Architecture", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187278/1_mowk0j_kcibe7.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187278/1_mowk0j_kcibe7.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187283/5_kzxln4_kycevq.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187282/3_dyi2u2_ykw5za.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187280/2_dtysku_keogjy.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187279/4_lfyu7x_zn32cw.jpg"
+                ] 
+            },  
+            { 
+                id: 2, title: "Casa river", cat: "Architecture", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186344/thumb_aklrl2_wbjz2s.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186345/5_jtaqmd_qj8naj.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186344/thumb_aklrl2_wbjz2s.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186344/4_d9zkle_jzpzng.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186343/3_yezqzo_hfk1fm.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186343/8_cvqjry_ci7k4l.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186342/0_v9gabb_rceqie.jpg"
+                ] 
+            },
+            { 
+                id: 3, title: "Farmhouse 2", cat: "Architecture", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186684/1_xmeyaj.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186689/4_pxxooa.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186688/7_j5yrwi.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186688/6_sjhj8k.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186687/5_gcbmrf.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186686/3_o9fiol.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186685/2_mcoxwk.jpg"
+                ] 
+            },
+            { 
+                id: 4, title: "Symphony of light", cat: "Interior", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187110/3_hbhne9_npqpmw.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187116/5_dppmdl_mhgxtn.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187115/6_rl1yhj_s8jnmx.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187113/4_gdkzk3_lrc4c8.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187112/9_sxec6o_r6u3sj.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187111/7_b1fuo9_r7nu8z.jpg"
+                ] 
+            },
+            { 
+                id: 5, title: "Velvet Lounge", cat: "Interior", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187415/1_laactb_xcslho.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187422/5_ub8xlu_cv7epx.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187421/4_culwz7_mqxzxc.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187419/6_td8an3_fb5xmv.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187417/3_q0dkqf_e95jg5.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187415/1_laactb_xcslho.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187414/2_jkwjfv_jnr80k.jpg"
+                ] 
+            },
+            { 
+                id: 6, title: "Beyond the cliff line", cat: "Architecture", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/thumb_unnuog.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/thumb_unnuog.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186227/f_edfjcc.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/c_weduec.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186227/d_henfrb.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186226/e_vegwdz.jpg"
+                ] 
+            },
+            { 
+                id: 7, title: "Vista Verde", cat: "Architecture", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187476/0_mlyn2u_ypq7kt.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187488/7_i29ltg_pyiyrw.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187486/3_fsac4r_aucxau.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187484/4_ely1t8_xnzdd3.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187483/6_ysou9b_kefwl4.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187481/8_l3nu3e_shesud.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187479/1_qalnrt_fmsbjy.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187478/5_y1vsoc_dbegsn.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187476/0_mlyn2u_ypq7kt.jpg",
+                ] 
+            },
+            { 
+                id: 8, title: "Casa Serene", cat: "Architecture", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/A_kkjedz_vl6yjg.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/A_kkjedz_vl6yjg.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186446/3_mlpun2_kh1orb.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186445/6_kncxfw_evefpp.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186444/4_vbj4dy_tzrkxa.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186444/2_drunvo_gzq5qk.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186443/1_j5hfzg_j8redl.jpg"
+                ] 
+            },
+            { 
+                id: 9, title: "Apartment studio", cat: "Interior", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/b_2_gra4nb_ge7oz5.avif", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/c_2_wgdkzl_ed938o.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/d_2_s0xhlm_iwlezd.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/d_1_lzhfg6_vxkme5.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/a_1_mgnv1a_rw6scq.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/b_2_gra4nb_ge7oz5.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185878/c_1_xhbhcy_zjyzjy.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/b_1_ax82ir_opxyd5.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/12_zkhj7k_exmmcy.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/2_lqxthe_ggrs5k.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/a_2_mcg5bh_qvuxaz.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774185877/9_bojgdv_snftpz.avif"
+                ] 
+            },
+            { 
+                id: 10, title: "Sous les Ailes", cat: "Architecture", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187061/V2_wfsftz_xymqub.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187063/V4_mqgss1_rws3ce.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187061/V2_wfsftz_xymqub.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187060/V3_m8umd8_drd7c3.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187059/t_vqhux6_ajqcyl.jpg"
+                ] 
+            },
+            { 
+                id: 11, title: "HaNoi Market", cat: "Visualization", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186787/Market_1_iwasd2_prvhv8.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186787/Market_1_iwasd2_prvhv8.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186788/Market_4_vctzrb_e55dyg.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186789/Market_2_spqo3c_hdvsgb.jpg"
+                ] 
+            },
+            { 
+                id: 12, title: "Hanoi Street", cat: "Visualization", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186973/V1_yyrnzb_o47cx6.avif", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186976/V4_ufkhn9_pqzcwt.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186975/breakdown_a6gvmr_tdzvop.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186974/V3_bfxrlp_sujtje.avif",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186973/V1_yyrnzb_o47cx6.avif"
+                ] 
+            },
+            { 
+                id: 13, title: "Farmhouse 1", cat: "Architecture", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186607/v_1_y8txjm_al6oqv.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186608/v_4_v0ggfd_swwilo.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186607/v_1_y8txjm_al6oqv.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774186609/v_11_ufi7w3_imp82l.jpg"
+                ] 
+            },
+            { 
+                id: 14, title: "Uriya", cat: "Architecture", desc: "",
+                thumb: "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187193/1_aghzkv_ftdegd.jpg", 
+                gallery: [
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187193/1_aghzkv_ftdegd.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187192/6_y9sm2e_kpfj0l.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187190/4_j2cavy_xumgl5.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187188/5_y1bgw3_jzb5ao.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187187/3_sqh2pl_rsdlyu.jpg",
+                    "https://res.cloudinary.com/dwbzxt3cj/image/upload/v1774187186/2_ftvjqu_qyolyi.jpg"
+                ] 
+            },
+        ];
+
+        const homeView = document.getElementById('home-view');
+        const projectView = document.getElementById('project-view');
+        const contactView = document.getElementById('contact-view');
+        const views = [homeView, projectView, contactView];
+
+        const homeGridContainer = document.getElementById('main-grid-container');
+        const galleryGridContainer = document.getElementById('gallery-grid-container');
+        const backBtn = document.getElementById('back-btn');
+        const logoBtn = document.getElementById('logo-btn');
+        const contactNavLink = document.getElementById('contact-nav-link');
+        const homeNavLink = document.getElementById('home-nav-link');
+
+        function renderHomeGrid() {
+            homeGridContainer.innerHTML = '';
+            const pattern = [3, 2];
+            let dataIdx = 0, pIdx = 0;
+            while(dataIdx < projects.length) {
+                const count = pattern[pIdx % pattern.length];
+                const row = document.createElement('div');
+                row.className = `grid-row row-${count}`;
+                for(let i=0; i<count; i++) {
+                    if(projects[dataIdx]) {
+                        const item = document.createElement('div');
+                        item.className = 'project-item';
+                        const p = projects[dataIdx];
+                        item.innerHTML = `<img src="${p.thumb}"><div class="project-meta"><div class="project-category">${p.cat}</div><div class="project-title">${p.title}</div></div>`;
+                        item.onclick = () => openProject(p);
+                        row.appendChild(item);
+                        dataIdx++;
+                    }
+                }
+                homeGridContainer.appendChild(row);
+                pIdx++;
+            }
+        }
+
+        async function renderGalleryAuto(urls) {
+            galleryGridContainer.innerHTML = '<div style="padding: 2rem; font-weight:900; text-transform:uppercase;">Loading visual data...</div>';
+            
+            // Tải ảnh để lấy tỷ lệ khung hình thực tế
+            const photoData = await Promise.all(urls.map(url => {
+                return new Promise(resolve => {
+                    const img = new Image();
+                    img.onload = () => resolve({ src: url, ratio: img.width / img.height, isLandscape: img.width > img.height });
+                    img.src = url;
+                });
+            }));
+
+            galleryGridContainer.innerHTML = '';
+            let groups = [], currentGroup = [];
+
+            photoData.forEach(photo => {
+                if (photo.isLandscape) {
+                    if (currentGroup.length) { groups.push([...currentGroup]); currentGroup = []; }
+                    groups.push([photo]);
+                } else {
+                    currentGroup.push(photo);
+                    if (currentGroup.length === 3) { groups.push([...currentGroup]); currentGroup = []; }
+                }
+            });
+            if (currentGroup.length) groups.push(currentGroup);
+
+            groups.forEach(group => {
+                const row = document.createElement('div');
+                row.className = 'gallery-row';
+                group.forEach(img => {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.style.flex = `${img.ratio} 1 0%`; 
+                    item.innerHTML = `<img src="${img.src}">`;
+                    row.appendChild(item);
+                });
+                galleryGridContainer.appendChild(row);
+            });
+        }
+
+        function switchView(targetView) {
+            window.scrollTo(0, 0);
+            views.forEach(v => v.classList.remove('active'));
+            targetView.classList.add('active');
+            
+            const isHome = targetView === homeView;
+            const isContact = targetView === contactView;
+
+            backBtn.style.display = (isHome || isContact) ? 'none' : 'block';
+            homeNavLink.classList.toggle('active', isHome);
+            contactNavLink.classList.toggle('active', isContact);
+        }
+
+        function openProject(p) {
+            switchView(projectView);
+            document.getElementById('view-title').innerText = p.title;
+            document.getElementById('view-desc').innerText = p.desc;
+            renderGalleryAuto(p.gallery);
+        }
+
+        logoBtn.onclick = () => switchView(homeView);
+        homeNavLink.onclick = () => switchView(homeView);
+        contactNavLink.onclick = () => switchView(contactView);
+        backBtn.onclick = () => switchView(homeView);
+
+        renderHomeGrid();
+    </script>
+</body>
+</html>
