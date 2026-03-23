@@ -33,9 +33,6 @@
         .nav-link:hover { opacity: 1; }
         .nav-link.active { opacity: 1; text-decoration: underline; text-underline-offset: 8px; }
         
-        /* Nút Back đã được loại bỏ theo yêu cầu */
-        #back-btn { display: none; }
-
         main { padding: var(--header-h) var(--side-padding) 5rem; display: flex; flex-direction: column; gap: var(--gap); min-height: 100vh; }
 
         /* HERO SECTION */
@@ -96,7 +93,38 @@
         #contact-view { min-height: calc(100vh - var(--header-h)); display: none; flex-direction: column; justify-content: center; align-items: center; }
         #contact-view.active { display: flex; }
         .contact-content { width: 100%; max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr; gap: 8rem; padding: 4rem 0; }
-        .contact-left h2 { font-size: 5.2rem; font-weight: 900; line-height: 1.05; text-transform: uppercase; letter-spacing: -3px; margin-bottom: 2.5rem; }
+        
+        .contact-left h2 { 
+            font-size: 5.2rem; 
+            font-weight: 900; 
+            line-height: 1.1; 
+            text-transform: uppercase; 
+            letter-spacing: -3px; 
+            margin-bottom: 2.5rem;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .contact-line {
+            display: flex;
+            align-items: center;
+            gap: 0.2em;
+        }
+
+        .contact-avatar {
+            /* Đường kính khớp chính xác với chiều cao chữ cái viết hoa */
+            height: 0.75em; 
+            width: 0.75em; 
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--text-color);
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
         .contact-left p { font-size: 1.45rem; color: var(--muted-color); max-width: 500px; }
         .contact-links { display: flex; flex-direction: column; gap: 2rem; justify-content: center; padding-left: 5rem; }
         .social-link { display: flex; align-items: center; gap: 1.5rem; text-decoration: none; color: var(--text-color); font-size: 1.55rem; font-weight: 700; text-transform: uppercase; transition: 0.3s; padding: 1.3rem 0; border-bottom: 2px solid #eee; }
@@ -153,7 +181,14 @@
     <main id="contact-view" class="view-section">
         <div class="contact-content">
             <div class="contact-left">
-                <h2>Let's make<br>something<br>great.</h2>
+                <h2>
+                    <span>Let's make</span>
+                    <span>something</span>
+                    <span class="contact-line">
+                        great.
+                        <img src="https://raw.githubusercontent.com/kien98hp/My-portfolio/refs/heads/main/contactavatar.avif" alt="My Profile" class="contact-avatar">
+                    </span>
+                </h2>
                 <p>Architecture • Interior • 3D Visualization</p>
             </div>
             <div class="contact-links">
