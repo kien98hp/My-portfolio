@@ -12,7 +12,7 @@
             --bg-color: #ffffff;
             --text-color: #000000;
             --muted-color: #888888;
-            --header-h: 140px; 
+            --header-h: 120px; 
             --side-padding: var(--gap); 
             --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -21,21 +21,40 @@
         body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
 
         header {
-            padding: 3rem var(--side-padding);
+            padding: 2.5rem var(--side-padding);
             display: flex; justify-content: flex-start; align-items: center;
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); gap: 4rem; 
         }
-        .logo { font-size: 1.65rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; color: var(--text-color); text-decoration: none; }
-        nav { font-size: 1.15rem; font-weight: 700; text-transform: uppercase; display: flex; align-items: center; gap: 2.5rem; }
+        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; color: var(--text-color); text-decoration: none; }
+        nav { font-size: 1rem; font-weight: 700; text-transform: uppercase; display: flex; align-items: center; gap: 2rem; }
         .nav-link { cursor: pointer; opacity: 0.5; transition: 0.3s; }
         .nav-link:hover { opacity: 1; }
         .nav-link.active { opacity: 1; text-decoration: underline; text-underline-offset: 8px; }
         
-        #back-btn { display: none; cursor: pointer; border: 2px solid #000; padding: 0.6rem 1.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; margin-left: auto; transition: background 0.3s, color 0.3s; }
+        #back-btn { display: none; cursor: pointer; border: 2px solid #000; padding: 0.5rem 1.2rem; border-radius: 4px; font-size: 0.75rem; font-weight: 900; text-transform: uppercase; margin-left: auto; transition: background 0.3s, color 0.3s; }
         #back-btn:hover { background: #000; color: #fff; }
 
         main { padding: var(--header-h) var(--side-padding) 5rem; display: flex; flex-direction: column; gap: var(--gap); min-height: 100vh; }
+
+        /* HERO SECTION */
+        .hero-text {
+            padding: 5vh 0 7vh;
+            text-align: center;
+        }
+        .hero-text h1 {
+            /* Đồng bộ font-weight 900, size nhỏ hơn và letter-spacing giãn nhẹ */
+            font-size: clamp(1rem, 3.7vw, 2.5rem); 
+            font-weight: 900;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: 0.08em; /* Giãn nhẹ chữ để thanh thoát hơn */
+           word-spacing: 0.1em; /* Giãn nhẹ chữ để thanh thoát hơn */
+            margin: 0 auto;
+            max-width: 100%;
+            white-space: nowrap;
+            color: var(--text-color);
+        }
 
         /* HOME GRID */
         #main-grid-container { display: flex; flex-direction: column; gap: var(--gap); }
@@ -63,14 +82,18 @@
             padding-bottom: var(--gap); 
             padding-top: 40px; 
             pointer-events: none; 
-            opacity: 1; 
-            transform: translateY(0); 
+            opacity: 0; 
+            transform: translateY(10px); 
             transition: var(--transition);
-            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%);
+        }
+        .project-item:hover .project-meta {
+            opacity: 1;
+            transform: translateY(0);
         }
         
-        .project-category { font-size: 0.65rem; text-transform: uppercase; color: rgba(255,255,255,0.8); font-weight: 800; letter-spacing: 1px; margin-bottom: 4px; }
-        .project-title { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; color: #fff; padding: 0 15px; letter-spacing: 0.5px; }
+        .project-category { font-size: 0.6rem; text-transform: uppercase; color: rgba(255,255,255,0.9); font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; }
+        .project-title { font-size: 1rem; font-weight: 800; text-transform: uppercase; color: #fff; padding: 0 15px; letter-spacing: 0.5px; }
 
         /* GALLERY DETAIL LAYOUT */
         #gallery-grid-container { display: flex; flex-direction: column; gap: var(--gap); }
@@ -82,34 +105,36 @@
         .view-section.active { display: block; animation: fadeIn 0.6s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .project-info { padding: 0 0 4rem 0; max-width: 900px; }
-        .project-info h1 { font-size: 3.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: -2px; margin-bottom: 1rem; }
-        .project-info .desc-vn { font-size: 1.15rem; color: var(--text-color); line-height: 1.6; font-weight: 500; }
-        .project-info .desc-en { font-size: 1rem; color: var(--muted-color); line-height: 1.6; font-style: italic; margin-top: 0.5rem; }
+        .project-info { padding: 0 0 3rem 0; max-width: 800px; }
+        .project-info h1 { font-size: 2.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 1rem; }
+        .project-info .desc-vn { font-size: 1.1rem; color: var(--text-color); line-height: 1.6; font-weight: 400; }
+        .project-info .desc-en { font-size: 0.95rem; color: var(--muted-color); line-height: 1.6; font-style: italic; margin-top: 0.5rem; }
 
         /* CONTACT SECTION */
-        .contact-content { max-width: 1200px; margin: 0 auto; padding-top: 5vh; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-        .contact-left h2 { font-size: 5rem; font-weight: 900; line-height: 1; text-transform: uppercase; letter-spacing: -4px; margin-bottom: 2rem; }
-        .contact-left p { font-size: 1.25rem; color: var(--muted-color); max-width: 400px; }
-        .contact-links { display: flex; flex-direction: column; gap: 1.5rem; justify-content: center; }
-        .social-link { display: flex; align-items: center; gap: 1.5rem; text-decoration: none; color: var(--text-color); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; transition: 0.3s; padding: 1rem 0; border-bottom: 1px solid #eee; }
-        .social-link i { font-size: 1.8rem; width: 30px; text-align: center; }
+        .contact-content { max-width: 1100px; margin: 0 auto; padding-top: 5vh; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        .contact-left h2 { font-size: 4rem; font-weight: 900; line-height: 1.1; text-transform: uppercase; letter-spacing: -2px; margin-bottom: 2rem; }
+        .contact-left p { font-size: 1.1rem; color: var(--muted-color); max-width: 400px; }
+        .contact-links { display: flex; flex-direction: column; gap: 1rem; justify-content: center; }
+        .social-link { display: flex; align-items: center; gap: 1.2rem; text-decoration: none; color: var(--text-color); font-size: 1.2rem; font-weight: 700; text-transform: uppercase; transition: 0.3s; padding: 0.8rem 0; border-bottom: 1px solid #eee; }
+        .social-link i { font-size: 1.5rem; width: 25px; text-align: center; }
         .social-link:hover { color: var(--muted-color); padding-left: 10px; border-bottom-color: #000; }
 
         @media (max-width: 1024px) {
             .row-4 { grid-template-columns: repeat(2, 1fr); }
+            .contact-content { grid-template-columns: 1fr; gap: 2rem; }
         }
 
         @media (max-width: 768px) {
-            :root { --gap: 10px; --header-h: 110px; }
-            header { gap: 1.5rem; padding: 2rem var(--side-padding); }
-            .logo { font-size: 1.2rem; }
-            nav { gap: 1.5rem; font-size: 0.9rem; }
+            :root { --gap: 12px; --header-h: 100px; }
+            header { gap: 1rem; padding: 1.5rem var(--side-padding); }
+            .logo { font-size: 1.1rem; }
+            nav { gap: 1rem; font-size: 0.85rem; }
+            .hero-text { padding: 4vh 0 6vh; }
+            .hero-text h1 { font-size: clamp(0.8rem, 4vw, 1.2rem); letter-spacing: 0.05em; }
             .grid-row { grid-template-columns: 1fr !important; }
             .gallery-row { flex-direction: column !important; }
-            .contact-left h2 { font-size: 2.5rem; letter-spacing: -1px; }
-            .project-title { font-size: 1rem; }
-            .project-info h1 { font-size: 2.2rem; }
+            .contact-left h2 { font-size: 2.2rem; }
+            .project-title { font-size: 0.95rem; }
         }
     </style>
 </head>
@@ -125,6 +150,9 @@
     </header>
 
     <main id="home-view" class="view-section active">
+        <section class="hero-text">
+            <h1>I'm a vagabond in the digital age.</h1>
+        </section>
         <div id="main-grid-container"></div>
     </main>
 
@@ -143,7 +171,7 @@
         <div class="contact-content">
             <div class="contact-left">
                 <h2>Let's make<br>something<br>great.</h2>
-                <p>Kiến trúc • Nội thất • Diễn họa 3D.</p>
+                <p>Architecture • Interior • 3D Visualization</p>
             </div>
             <div class="contact-links">
                 <a href="mailto:kienpham840@gmail.com" class="social-link">
@@ -157,10 +185,6 @@
                 <a href="https://www.instagram.com/muertahaha/" target="_blank" class="social-link">
                     <i class="fa-brands fa-instagram"></i>
                     <span>@muertahaha</span>
-                </a>
-                <a href="tel:+84917572050" class="social-link">
-                    <i class="fa-solid fa-phone"></i>
-                    <span>+84 917 572 050</span>
                 </a>
             </div>
         </div>
